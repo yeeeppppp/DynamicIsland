@@ -118,6 +118,8 @@ static class Native
 
     public static bool RegisterShellHook(IntPtr hwnd) => RegisterShellHookWindow(hwnd);
 
+    public static bool IsShellHook(int message) => message == ShellMessage;
+
     public static MediaKey? MediaKeyOf(int message, IntPtr wParam, IntPtr lParam) =>
         message == ShellMessage && wParam.ToInt64() == HSHELL_APPCOMMAND ? (MediaKey)((lParam.ToInt64() >> 16) & 0xFFF) : null;
 

@@ -53,6 +53,7 @@ public partial class MainWindow
     {
         Native.KeepOnTop(_hwnd);
         _glass.Place();
+        _bar.KeepOnTop();
         if (_pointerLyric != null) Native.PutBehind(_pointerLyric.Handle, _glass.IsOn ? _glass.Handle : _hwnd);
     }
 

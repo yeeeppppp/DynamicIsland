@@ -200,6 +200,7 @@ public partial class MainWindow
             Reshape();
         }
         Body.Thin(Settings.Glass, animate ? GlassTime : TimeSpan.Zero, HideGlassOnceCovered);
+        _bar.SyncGlass(animate);
     }
 
     void HideGlassOnceCovered()

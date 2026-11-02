@@ -948,7 +948,7 @@
                     </local:RowList>
                 </Grid>
 
-                <Grid x:Name="SettingsView" Width="320" Height="374" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Grid x:Name="SettingsView" Width="320" Height="414" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <local:RowList Margin="10,8,10,0">
                         <Button Style="{StaticResource BackButton}" Content="НАСТРОЙКИ" Click="SettingsBack_Click"/>
                         <Button Style="{StaticResource RowButton}" Click="LyricsRow_Click">
@@ -989,6 +989,13 @@
                                 <local:Toggle x:Name="WeatherSwitch" Style="{StaticResource RowSwitch}"/>
                             </Grid>
                         </Button>
+                        <Button Style="{StaticResource RowButton}" Click="BarRow_Click">
+                            <Grid>
+                                <local:Icon Style="{StaticResource RowIcon}" Kind="Bars"/>
+                                <TextBlock Style="{StaticResource RowLabel}" Text="Островки"/>
+                                <local:Icon Style="{StaticResource RowChevron}"/>
+                            </Grid>
+                        </Button>
                         <Button Style="{StaticResource RowButton}" Click="Fullscreen_Click">
                             <Grid>
                                 <local:Icon Style="{StaticResource RowIcon}" Kind="Expand"/>
@@ -1011,6 +1018,47 @@
                                     <TextBlock x:Name="UpdateText" Foreground="{StaticResource Dim}" VerticalAlignment="Center"/>
                                     <local:Icon Style="{StaticResource RowChevron}" Margin="8,1,0,0"/>
                                 </StackPanel>
+                            </Grid>
+                        </Button>
+                    </local:RowList>
+                </Grid>
+
+                <Grid x:Name="BarPage" Width="320" Height="288" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <local:RowList Margin="10,8,10,0">
+                        <Button Style="{StaticResource BackButton}" Content="ОСТРОВКИ" Click="BarBack_Click"/>
+                        <Button Style="{StaticResource RowButton}" Click="Bar_Click">
+                            <Grid>
+                                <local:Icon Style="{StaticResource RowIcon}" Kind="Rim"/>
+                                <TextBlock Style="{StaticResource RowLabel}" Text="Показывать островки"/>
+                                <local:Toggle x:Name="BarSwitch" Style="{StaticResource RowSwitch}"/>
+                            </Grid>
+                        </Button>
+                        <Button Style="{StaticResource RowButton}" Click="BarTask_Click">
+                            <Grid>
+                                <local:Icon Style="{StaticResource RowIcon}" Kind="Windows"/>
+                                <TextBlock Style="{StaticResource RowLabel}" Text="Приложение слева"/>
+                                <local:Toggle x:Name="BarTaskSwitch" Style="{StaticResource RowSwitch}"/>
+                            </Grid>
+                        </Button>
+                        <Button Style="{StaticResource RowButton}" Click="BarWifi_Click">
+                            <Grid>
+                                <local:Icon Style="{StaticResource RowIcon}" Kind="Wifi"/>
+                                <TextBlock Style="{StaticResource RowLabel}" Text="Wi-Fi"/>
+                                <local:Toggle x:Name="BarWifiSwitch" Style="{StaticResource RowSwitch}"/>
+                            </Grid>
+                        </Button>
+                        <Button Style="{StaticResource RowButton}" Click="BarBluetooth_Click">
+                            <Grid>
+                                <local:Icon Style="{StaticResource RowIcon}" Kind="Bluetooth"/>
+                                <TextBlock Style="{StaticResource RowLabel}" Text="Bluetooth"/>
+                                <local:Toggle x:Name="BarBluetoothSwitch" Style="{StaticResource RowSwitch}"/>
+                            </Grid>
+                        </Button>
+                        <Button Style="{StaticResource RowButton}" Click="BarVolume_Click">
+                            <Grid>
+                                <local:Icon Style="{StaticResource RowIcon}" Kind="Loud"/>
+                                <TextBlock Style="{StaticResource RowLabel}" Text="Громкость"/>
+                                <local:Toggle x:Name="BarVolumeSwitch" Style="{StaticResource RowSwitch}"/>
                             </Grid>
                         </Button>
                     </local:RowList>
@@ -1148,6 +1196,26 @@
                                         <local:Scrubber x:Name="GapSlider" Style="{StaticResource RowSlider}"
                                                         Minimum="0" Maximum="24" Step="2" Changed="GapSlider_Changed"/>
                                         <local:Digits x:Name="GapText" Foreground="{StaticResource Dim}"
+                                                      HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Button>
+                                <Button x:Name="BarSizeRow" Style="{StaticResource RowButton}">
+                                    <Grid>
+                                        <local:Icon Style="{StaticResource RowIcon}" Kind="Size"/>
+                                        <TextBlock Style="{StaticResource RowLabel}" Text="Размер островков"/>
+                                        <local:Scrubber x:Name="BarSizeSlider" Style="{StaticResource RowSlider}"
+                                                        Minimum="70" Maximum="110" Step="5" Changed="BarSizeSlider_Changed"/>
+                                        <local:Digits x:Name="BarSizeText" Foreground="{StaticResource Dim}"
+                                                      HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Button>
+                                <Button x:Name="BarInsetRow" Style="{StaticResource RowButton}">
+                                    <Grid>
+                                        <local:Icon Style="{StaticResource RowIcon}" Kind="Gap"/>
+                                        <TextBlock Style="{StaticResource RowLabel}" Text="Отступ сбоку"/>
+                                        <local:Scrubber x:Name="BarInsetSlider" Style="{StaticResource RowSlider}"
+                                                        Minimum="8" Maximum="40" Step="2" Changed="BarInsetSlider_Changed"/>
+                                        <local:Digits x:Name="BarInsetText" Foreground="{StaticResource Dim}"
                                                       HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Button>

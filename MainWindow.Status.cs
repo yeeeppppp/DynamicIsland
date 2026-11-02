@@ -41,6 +41,7 @@ public partial class MainWindow
         bool hidden = Settings.HideFullscreen && !_pickingArea && Native.IsForegroundFullscreen(_hwnd);
         if (hidden == _hiddenByFullscreen) return;
         _hiddenByFullscreen = hidden;
+        _bar.SetAway(hidden);
         UpdateTargets();
     }
 
@@ -68,7 +69,7 @@ public partial class MainWindow
         });
 
         if (first) return;
-        ShowTransient(View.Volume, VolumeHudSeconds);
+        if (!(Settings.Bar && Settings.BarVolume)) ShowTransient(View.Volume, VolumeHudSeconds);
         ShowPlayerVolume(level, muted, false);
     }
 
@@ -81,7 +82,7 @@ public partial class MainWindow
         VolTrack.RenderTransformOrigin = new Point(up ? 0 : 1, 0.5);
         _volumeOvershoot.Target = VolumeOvershoot;
         _overshootTimeout.Start(OvershootHold);
-        ShowTransient(View.Volume, VolumeHudSeconds);
+        if (!(Settings.Bar && Settings.BarVolume)) ShowTransient(View.Volume, VolumeHudSeconds);
         ShowPlayerVolume(_lastVolume, _lastMuted, false);
         StartShapeLoop();
     }
