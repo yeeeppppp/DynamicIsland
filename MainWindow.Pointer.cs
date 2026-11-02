@@ -200,6 +200,8 @@ public partial class MainWindow
         else if (_view == View.TimerSet) SetMinutes(_setupMinutes + step);
         else if (_view == View.Look && SizeRow.IsMouseOver) SetScale(Settings.Scale + step * ScaleStep);
         else if (_view == View.Look && GapRow.IsMouseOver) SetGap(Settings.Gap + step * GapStep);
+        else if (_view == View.Look && BarSizeRow.IsMouseOver) SetBarScale(Settings.BarScale + step * BarScaleStep);
+        else if (_view == View.Look && BarInsetRow.IsMouseOver) SetBarInset(Settings.BarInset + step * BarInsetStep);
         else if (_view == View.Look && LookOverflow > 0) ScrollLook(-step);
         else if (_view == View.Shelf && ShelfOverflow > 0) ScrollShelf(-step);
         else if (_view == View.Update && UpdateNotesOverflow > 0) ScrollUpdateNotes(-step);

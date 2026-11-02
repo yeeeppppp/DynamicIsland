@@ -9,7 +9,7 @@ sealed class NetworkService
 {
     public enum Link { None, Wifi, Wired, Mobile }
 
-    public readonly record struct State(Link Link, string Name, bool Internet, string Vpn)
+    public readonly record struct State(Link Link, string Name, bool Internet, string Vpn, int Bars)
     {
         public string[] Tunnels => Vpn.Split(TunnelSeparator, StringSplitOptions.RemoveEmptyEntries);
     }
@@ -18,7 +18,7 @@ sealed class NetworkService
     const int PropVirtualInterface = 53;
     static readonly TimeSpan SettleTime = TimeSpan.FromSeconds(1.5);
     static readonly string[] VpnHints = ["VPN", "TAP-", "OpenVPN"];
-    static readonly State Unread = new(Link.None, "", false, "");
+    static readonly State Unread = new(Link.None, "", false, "", 0);
 
     readonly Dispatcher _ui;
     readonly DelayedAction _settle;
@@ -32,6 +32,8 @@ sealed class NetworkService
     }
 
     public event Action<State, State>? Changed;
+
+    public State Current => _state;
 
     public async Task StartAsync()
     {
@@ -75,7 +77,7 @@ sealed class NetworkService
                 name = profile.ProfileName ?? "";
                 internet = profile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
             }
-            return new State(link, name, internet, ReadTunnels());
+            return new State(link, name, internet, ReadTunnels(), profile?.GetSignalBars() ?? 0);
         }
         catch (Exception ex)
         {

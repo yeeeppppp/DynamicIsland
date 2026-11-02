@@ -15,6 +15,8 @@ public partial class MainWindow
     const double LookEdgeZone = 70, LookEdgeScale = 0.8;
     const int LargestScale = 130, ScaleStep = 5;
     const int LargestGap = 24, GapStep = 2;
+    const int LargestBarScale = 110, BarScaleStep = 5, SmallestBarScale = 70;
+    const int LargestBarInset = 40, BarInsetStep = 2, SmallestBarInset = 8;
 
     const int PointerLyricOff = 0, FirstPointerLyricShape = 1;
 
@@ -62,6 +64,45 @@ public partial class MainWindow
 
     void LyricsBack_Click(object sender, RoutedEventArgs e) => ShowPanel(Panel.Settings);
 
+    void BarRow_Click(object sender, RoutedEventArgs e) => ShowPanel(Panel.Bar);
+
+    void BarBack_Click(object sender, RoutedEventArgs e) => ShowPanel(Panel.Settings);
+
+    void Bar_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.Bar = !Settings.Bar;
+        UpdateSwitches(true);
+        _bar.Place();
+    }
+
+    void BarTask_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.BarTask = !Settings.BarTask;
+        UpdateSwitches(true);
+        _bar.Place();
+    }
+
+    void BarWifi_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.BarWifi = !Settings.BarWifi;
+        UpdateSwitches(true);
+        _bar.Place();
+    }
+
+    void BarBluetooth_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.BarBluetooth = !Settings.BarBluetooth;
+        UpdateSwitches(true);
+        _bar.Place();
+    }
+
+    void BarVolume_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.BarVolume = !Settings.BarVolume;
+        UpdateSwitches(true);
+        _bar.Place();
+    }
+
     void Source_Click(object sender, RoutedEventArgs e)
     {
         var picked = (LyricSource)(1 << SourceChips.Children.IndexOf((UIElement)sender));
@@ -93,6 +134,7 @@ public partial class MainWindow
         Settings.Rim = !Settings.Rim;
         UpdateSwitches(true);
         SyncRim();
+        _bar.ApplyLook();
     }
 
     void AppVolume_Click(object sender, RoutedEventArgs e)
@@ -127,6 +169,11 @@ public partial class MainWindow
         WeatherSwitch.Set(Settings.Weather, animate);
         FullscreenSwitch.Set(Settings.HideFullscreen, animate);
         AutostartSwitch.Set(Autostart.Enabled, animate);
+        BarSwitch.Set(Settings.Bar, animate);
+        BarTaskSwitch.Set(Settings.BarTask, animate);
+        BarWifiSwitch.Set(Settings.BarWifi, animate);
+        BarBluetoothSwitch.Set(Settings.BarBluetooth, animate);
+        BarVolumeSwitch.Set(Settings.BarVolume, animate);
 
         for (int i = 0; i < SourceChips.Children.Count; i++)
             ((ToggleButton)SourceChips.Children[i]).IsChecked = Settings.LyricSources.HasFlag((LyricSource)(1 << i));
@@ -217,6 +264,10 @@ public partial class MainWindow
 
     void GapSlider_Changed(object? sender, EventArgs e) => SetGap((int)GapSlider.Value);
 
+    void BarSizeSlider_Changed(object? sender, EventArgs e) => SetBarScale((int)BarSizeSlider.Value);
+
+    void BarInsetSlider_Changed(object? sender, EventArgs e) => SetBarInset((int)BarInsetSlider.Value);
+
     void SetScale(int percent)
     {
         int was = Settings.Scale;
@@ -229,6 +280,20 @@ public partial class MainWindow
         int was = Settings.Gap;
         Settings.Gap = px;
         if (Settings.Gap != was) ApplyLook();
+    }
+
+    void SetBarScale(int percent)
+    {
+        int was = Settings.BarScale;
+        Settings.BarScale = percent;
+        if (Settings.BarScale != was) ApplyLook();
+    }
+
+    void SetBarInset(int px)
+    {
+        int was = Settings.BarInset;
+        Settings.BarInset = px;
+        if (Settings.BarInset != was) ApplyLook();
     }
 
     void Dots_Click(object sender, RoutedEventArgs e)
@@ -367,8 +432,12 @@ public partial class MainWindow
     {
         SizeText.Text = Settings.Scale + "%";
         GapText.Text = Settings.Gap + " px";
+        BarSizeText.Text = Settings.BarScale + "%";
+        BarInsetText.Text = Settings.BarInset + " px";
         SizeSlider.Set(Settings.Scale, LookView.IsVisible);
         GapSlider.Set(Settings.Gap, LookView.IsVisible);
+        BarSizeSlider.Set(Settings.BarScale, LookView.IsVisible);
+        BarInsetSlider.Set(Settings.BarInset, LookView.IsVisible);
         DotsSegments.Set(Settings.Dots ? 1 : 0, LookView.IsVisible);
         SeekStyleSegments.Set(Settings.LineBar ? 1 : 0, LookView.IsVisible);
         SeekHoverSegments.Set((int)Settings.SeekHover, LookView.IsVisible);
@@ -410,5 +479,6 @@ public partial class MainWindow
         _userScale.Target = Settings.Scale / 100.0;
         _topGap.Target = Settings.Gap;
         UpdateTargets();
+        _bar.ApplyLook();
     }
 }

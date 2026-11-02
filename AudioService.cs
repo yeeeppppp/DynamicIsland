@@ -57,6 +57,15 @@ sealed class AudioService
         _volume.SetMasterVolumeLevelScalar(Math.Clamp(level + delta, 0f, 1f), ref context);
     }
 
+    public void ToggleMute()
+    {
+        _checkedAt = DateTime.MinValue;
+        RefreshDevice();
+        if (_volume == null || _volume.GetMute(out bool muted) != 0) return;
+        Guid context = Guid.Empty;
+        _volume.SetMute(!muted, ref context);
+    }
+
     public bool AdjustAppVolume(string appId, float delta, out float level)
     {
         level = 0;

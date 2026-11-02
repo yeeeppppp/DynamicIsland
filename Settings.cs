@@ -58,11 +58,20 @@ static class Settings
     const string Key = @"Software\DynamicIsland";
     const int MinScale = 85, MaxScale = 130, MaxGap = 24;
     const int DefaultScale = 100, DefaultGap = 8;
+    const int MinBarScale = 70, MaxBarScale = 110, DefaultBarScale = 85;
+    const int MinBarInset = 8, MaxBarInset = 40, DefaultBarInset = 16;
 
     static bool _lyrics = ReadSwitch(nameof(Lyrics)), _lyricEffects = ReadSwitch(nameof(LyricEffects));
     static bool _network = ReadSwitch(nameof(Network)), _hideFullscreen = ReadSwitch(nameof(HideFullscreen));
     static bool _rim = ReadSwitch(nameof(Rim)), _appVolume = ReadSwitch(nameof(AppVolume));
     static bool _weather = ReadSwitch(nameof(Weather));
+    static bool _bar = ReadSwitch(nameof(Bar));
+    static bool _barTask = ReadSwitch(nameof(BarTask));
+    static bool _barWifi = ReadSwitch(nameof(BarWifi));
+    static bool _barBluetooth = ReadSwitch(nameof(BarBluetooth));
+    static bool _barVolume = ReadSwitch(nameof(BarVolume));
+    static int _barScale = Math.Clamp(Read(nameof(BarScale), DefaultBarScale), MinBarScale, MaxBarScale);
+    static int _barInset = Math.Clamp(Read(nameof(BarInset), DefaultBarInset), MinBarInset, MaxBarInset);
     static bool _pointerLyric = ReadSwitch(nameof(PointerLyric), false);
     static bool _lyricParting = ReadSwitch(nameof(LyricParting));
     static PointerLyricShape _pointerLyricShape = (PointerLyricShape)Math.Clamp(Read(nameof(PointerLyricShape), 0), 0, (int)PointerLyricShape.Line);
@@ -179,6 +188,48 @@ static class Settings
     {
         get => _weather;
         set => Write(nameof(Weather), _weather = value);
+    }
+
+    public static bool Bar
+    {
+        get => _bar;
+        set => Write(nameof(Bar), _bar = value);
+    }
+
+    public static bool BarTask
+    {
+        get => _barTask;
+        set => Write(nameof(BarTask), _barTask = value);
+    }
+
+    public static bool BarWifi
+    {
+        get => _barWifi;
+        set => Write(nameof(BarWifi), _barWifi = value);
+    }
+
+    public static bool BarBluetooth
+    {
+        get => _barBluetooth;
+        set => Write(nameof(BarBluetooth), _barBluetooth = value);
+    }
+
+    public static bool BarVolume
+    {
+        get => _barVolume;
+        set => Write(nameof(BarVolume), _barVolume = value);
+    }
+
+    public static int BarScale
+    {
+        get => _barScale;
+        set => Write(nameof(BarScale), _barScale = Math.Clamp(value, MinBarScale, MaxBarScale));
+    }
+
+    public static int BarInset
+    {
+        get => _barInset;
+        set => Write(nameof(BarInset), _barInset = Math.Clamp(value, MinBarInset, MaxBarInset));
     }
 
     public static Place? Place

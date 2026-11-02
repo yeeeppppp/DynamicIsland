@@ -13,9 +13,9 @@ namespace DynamicIsland;
 
 public partial class MainWindow : Window
 {
-    enum View { Idle, Media, Timer, Record, Volume, Charge, Headset, Focus, Toast, Notice, MediaBig, IdleBig, TimerBig, TimerSet, RecordBig, RecordSet, Menu, Settings, Look, Shelf, Weather, Place, Qr, Update, Lyrics, Loading }
+    enum View { Idle, Media, Timer, Record, Volume, Charge, Headset, Focus, Toast, Notice, MediaBig, IdleBig, TimerBig, TimerSet, RecordBig, RecordSet, Menu, Settings, Look, Shelf, Weather, Place, Qr, Update, Lyrics, Bar, Loading }
 
-    enum Panel { None, Player, Timer, TimerSet, Record, Menu, Settings, Look, Shelf, Weather, Place, Qr, Update, Lyrics }
+    enum Panel { None, Player, Timer, TimerSet, Record, Menu, Settings, Look, Shelf, Weather, Place, Qr, Update, Lyrics, Bar }
 
     readonly record struct PillShape(double Width, double Height, double Radius);
 
@@ -38,7 +38,8 @@ public partial class MainWindow : Window
         [View.RecordBig] = new(340, 92, 40),
         [View.RecordSet] = new(320, 92, 40),
         [View.Menu] = new(300, 368, 34),
-        [View.Settings] = new(320, 374, 34),
+        [View.Settings] = new(320, 414, 34),
+        [View.Bar] = new(320, 288, 34),
         [View.Look] = new(352, LookHeight, 34),
         [View.Shelf] = new(380, 136, 34),
         [View.Weather] = new(340, 190, 34),
@@ -65,7 +66,7 @@ public partial class MainWindow : Window
 
     static readonly View[] MenuPages = [View.Settings, View.Look, View.TimerSet, View.TimerBig, View.RecordSet, View.RecordBig, View.Shelf, View.Weather, View.Qr];
 
-    static readonly View[] SettingsPages = [View.Update, View.Lyrics];
+    static readonly View[] SettingsPages = [View.Update, View.Lyrics, View.Bar];
 
     static readonly View[] WeatherPages = [View.Place];
 
@@ -83,6 +84,7 @@ public partial class MainWindow : Window
     readonly Dictionary<View, FrameworkElement> _views;
     readonly SolidColorBrush _dim, _orange, _green, _red, _indigo;
     readonly AudioService _audio = new();
+    readonly Bar _bar;
     readonly MediaService _media;
     readonly LyricsService _lyrics = new();
     readonly NetworkService _network;
@@ -140,6 +142,7 @@ public partial class MainWindow : Window
             [View.Qr] = QrView,
             [View.Update] = UpdatePage,
             [View.Lyrics] = LyricsPage,
+            [View.Bar] = BarPage,
             [View.Loading] = LoadingView,
         };
         _spotSprings = [_coverLeft, _coverTop, _coverSize, _barsRight, _barsCenterY, _barsWidth, _barsHeight, _barsOpen];
@@ -173,6 +176,7 @@ public partial class MainWindow : Window
         _lyrics.Changed += OnLyricsChanged;
         _network = new NetworkService(Dispatcher);
         _network.Changed += OnNetworkChanged;
+        _bar = new Bar(_audio, _network);
         _updater.Changed += RefreshUpdatePage;
         _shelf = new Shelf(Dispatcher);
         _shelf.Changed += SyncShelf;
@@ -245,6 +249,7 @@ public partial class MainWindow : Window
 
     IntPtr OnShellMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
+        if (Native.IsShellHook(msg)) _bar.Refresh();
         switch (Native.MediaKeyOf(msg, wParam, lParam))
         {
             case Native.MediaKey.VolumeUp when IsVolumeAtLimit(true):
@@ -268,7 +273,11 @@ public partial class MainWindow : Window
     async void OnLoaded(object sender, RoutedEventArgs e)
     {
         CenterOnScreen();
-        SystemEvents.DisplaySettingsChanged += (_, _) => Dispatcher.InvokeAsync(CenterOnScreen);
+        SystemEvents.DisplaySettingsChanged += (_, _) => Dispatcher.InvokeAsync(() =>
+        {
+            CenterOnScreen();
+            _bar.Place();
+        });
         UpdateClock();
         UpdateSwitches(false);
         RefreshLookPage();
@@ -291,6 +300,7 @@ public partial class MainWindow : Window
         try { await _network.StartAsync(); }
         catch (Exception ex) { App.Log(ex); }
         _obs.Start();
+        _bar.Start();
     }
 
     void CenterOnScreen()
@@ -313,6 +323,7 @@ public partial class MainWindow : Window
     {
         _ticker.Stop();
         _alarm.Stop();
+        _bar.Shutdown();
         _pointerLyric?.ShowLine("", 0, 0);
         _glass.Hide();
         var fade = new DoubleAnimation(0, Ms(220));
@@ -368,6 +379,7 @@ public partial class MainWindow : Window
             Panel.Look => View.Look,
             Panel.Update => View.Update,
             Panel.Lyrics => View.Lyrics,
+            Panel.Bar => View.Bar,
             Panel.Shelf => View.Shelf,
             Panel.Weather => View.Weather,
             Panel.Place => View.Place,

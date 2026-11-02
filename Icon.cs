@@ -6,7 +6,7 @@ namespace DynamicIsland;
 
 public enum Glyph
 {
-    Mute, Quiet, Mid, Loud, Headphones, Speaker, Vpn, Offline, Wifi, Wired, Bell, Note, Battery, Minus, Plus, Chevron, Back,
+    Mute, Quiet, Mid, Loud, Headphones, Speaker, Vpn, Offline, Wifi, WifiMid, WifiLow, Wired, Bluetooth, Bell, Note, Battery, Minus, Plus, Chevron, Back,
     Timer, Gear, Lines, Quote, Sparkle, Rim, Expand, Windows, Power, Look, Size, Gap, Drop, Moon, Tray, Cross, Bolt, VpnOff, Bars, Update,
     Segments, Stars, Pointer, Record, Folder, Bulge, Sun, Cloud, CloudSun, CloudMoon, Rain, Snow, Storm, Fog, Qr, Pin, Location, Search,
     Check, PointerText, Parting,
@@ -58,6 +58,8 @@ public sealed class Icon : FrameworkElement
         [Glyph.Mid] = (SoundPieces, 0b00111),
         [Glyph.Loud] = (SoundPieces, 0b01111),
         [Glyph.Wifi] = (NetworkPieces, 0b0111),
+        [Glyph.WifiMid] = (NetworkPieces, 0b0011),
+        [Glyph.WifiLow] = (NetworkPieces, 0b0001),
         [Glyph.Offline] = (NetworkPieces, 0b1111),
         [Glyph.Vpn] = (ShieldPieces, 0b11),
         [Glyph.VpnOff] = (ShieldPieces, 0b01),
@@ -291,8 +293,29 @@ public sealed class Icon : FrameworkElement
     static Geometry Outline(Glyph kind)
     {
         if (Outlines.TryGetValue(kind, out Geometry? outline)) return outline;
-        outline = Composite.TryGetValue(kind, out var composite) ? Outline(composite.Pieces, composite.Mask) : Placed(Outline(Symbols[kind]));
+        outline = kind == Glyph.Bluetooth ? Placed(BluetoothMark())
+            : Composite.TryGetValue(kind, out var composite) ? Outline(composite.Pieces, composite.Mask)
+            : Placed(Outline(Symbols[kind]));
         return Outlines[kind] = outline;
+    }
+
+    static Geometry BluetoothMark()
+    {
+        var path = new StreamGeometry();
+        using (StreamGeometryContext g = path.Open())
+        {
+            g.BeginFigure(new Point(6.5, 7.2), false, false);
+            g.LineTo(new Point(17.2, 16.8), true, true);
+            g.LineTo(new Point(12, 21), true, true);
+            g.LineTo(new Point(12, 3), true, true);
+            g.LineTo(new Point(17.2, 7.2), true, true);
+            g.LineTo(new Point(6.5, 16.8), true, true);
+        }
+        path.Freeze();
+        var pen = new Pen(Brushes.White, 1.7) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round, LineJoin = PenLineJoin.Round };
+        Geometry wide = path.GetWidenedPathGeometry(pen);
+        wide.Freeze();
+        return wide;
     }
 
     static Geometry Outline(Piece[] pieces, int mask)
