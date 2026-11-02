@@ -13,7 +13,7 @@ sealed class Updater
 
     public const string RestartedFlag = "--updated";
 
-    const string LatestReleaseUrl = "https://api.github.com/repos/mihailkotovski/DynamicIsland/releases/latest";
+    const string LatestReleaseUrl = "https://api.github.com/repos/yeeeppppp/DynamicIsland/releases/latest";
     const string AssetName = "DynamicIsland.exe";
     const string HashPrefix = "sha256:";
     const int MaxNotes = 6;

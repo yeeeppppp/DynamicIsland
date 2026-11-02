@@ -5,8 +5,8 @@
 <p>Остров в духе iPhone у верхнего края экрана: музыка с текстом песен, таймер, запись OBS, полка для файлов и системные уведомления. По клику раскрывается в плеер.</p>
 
 <p>
-  <a href="https://github.com/mihailkotovski/DynamicIsland/releases/latest"><img alt="Релиз" src="https://img.shields.io/github/v/release/mihailkotovski/DynamicIsland?style=flat-square&label=%D1%80%D0%B5%D0%BB%D0%B8%D0%B7&color=111111"></a>
-  <a href="https://github.com/mihailkotovski/DynamicIsland/releases"><img alt="Загрузки" src="https://img.shields.io/github/downloads/mihailkotovski/DynamicIsland/total?style=flat-square&label=%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8&color=111111"></a>
+  <a href="https://github.com/yeeeppppp/DynamicIsland/releases/latest"><img alt="Релиз" src="https://img.shields.io/github/v/release/yeeeppppp/DynamicIsland?style=flat-square&label=%D1%80%D0%B5%D0%BB%D0%B8%D0%B7&color=111111"></a>
+  <a href="https://github.com/yeeeppppp/DynamicIsland/releases"><img alt="Загрузки" src="https://img.shields.io/github/downloads/yeeeppppp/DynamicIsland/total?style=flat-square&label=%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8&color=111111"></a>
   <img alt="Windows 10 | 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows&logoColor=white">
   <img alt=".NET 8" src="https://img.shields.io/badge/.NET%208-WPF-512BD4?style=flat-square&logo=dotnet&logoColor=white">
   <img alt="Без сторонних пакетов" src="https://img.shields.io/badge/%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD%D0%BD%D0%B8%D1%85%20%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2-0-2ea043?style=flat-square">
@@ -15,7 +15,7 @@
 <img src="docs/player-demo.gif" width="520" alt="Остров раскрывается в плеер с текстом песни">
 
 <p>
-  <a href="https://github.com/mihailkotovski/DynamicIsland/releases/latest"><b>Скачать</b></a>
+  <a href="https://github.com/yeeeppppp/DynamicIsland/releases/latest"><b>Скачать</b></a>
   &nbsp;·&nbsp; <a href="#что-умеет">Что умеет</a>
   &nbsp;·&nbsp; <a href="#управление">Управление</a>
   &nbsp;·&nbsp; <a href="#сборка-из-исходников">Сборка</a>
@@ -148,7 +148,7 @@
 
 ## Скачать
 
-Готовый `DynamicIsland.exe` лежит в [релизах](https://github.com/mihailkotovski/DynamicIsland/releases/latest). Устанавливать ничего не нужно: скачайте и запустите. Дальше остров обновляется сам — из «Настроек» в меню. Подходит для 64-битных Windows 10 2004 (сборка 19041) и новее, Windows 11.
+Готовый `DynamicIsland.exe` лежит в [релизах](https://github.com/yeeeppppp/DynamicIsland/releases/latest). Устанавливать ничего не нужно: скачайте и запустите. Дальше остров обновляется сам — из «Настроек» в меню. Подходит для 64-битных Windows 10 2004 (сборка 19041) и новее, Windows 11.
 
 > [!NOTE]
 > Файл не подписан, поэтому при первом запуске SmartScreen может предупредить о неизвестном издателе: «Подробнее» → «Выполнить в любом случае».
@@ -158,7 +158,7 @@
 Нужен [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 ```bash
-git clone https://github.com/mihailkotovski/DynamicIsland.git
+git clone https://github.com/yeeeppppp/DynamicIsland.git
 cd DynamicIsland
 dotnet run -c Release
 ```
