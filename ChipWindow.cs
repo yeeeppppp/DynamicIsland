@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -44,7 +45,7 @@ sealed class ChipWindow : Window
     ChipSide _side;
     Rect _clip = Rect.Empty;
     double _clipRadius;
-    bool _hovered, _pressed, _open, _away, _closing, _placed;
+    bool _hovered, _pressed, _open, _away, _closing;
 
     public ChipWindow(string name, ChipSide side, FrameworkElement compact, FrameworkElement open,
         double openWidth, double openHeight, double minCompact, double maxCompact)
@@ -181,7 +182,6 @@ sealed class ChipWindow : Window
         double ahead = Settings.BarInset;
         for (int i = 0; i < slot; i++) ahead += widthsFromEdge[i] * scale + ChipGap * scale;
         _sideShift.Target = (side == ChipSide.Left ? ahead : -ahead) / scale;
-        _placed = true;
         KeepOnTop();
         Aim();
     }

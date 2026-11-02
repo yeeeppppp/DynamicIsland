@@ -18,10 +18,10 @@ sealed class Bar
     const float WheelVolumeStep = 0.02f;
     const double QuietVolumeBelow = 0.34, MidVolumeBelow = 0.67;
     static readonly Color BluetoothBlue = Color.FromRgb(0x0A, 0x84, 0xFF);
-    static readonly Brush Dim = new SolidColorBrush(Color.FromArgb(0x99, 0xFF, 0xFF, 0xFF));
-    static readonly Brush Faint = new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF));
-    static readonly Brush Green = new SolidColorBrush(Color.FromRgb(0x30, 0xD1, 0x58));
-    static readonly Brush Red = new SolidColorBrush(Color.FromRgb(0xFF, 0x45, 0x3A));
+    static readonly SolidColorBrush Dim = new(Color.FromArgb(0x99, 0xFF, 0xFF, 0xFF));
+    static readonly SolidColorBrush Faint = new(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF));
+    static readonly SolidColorBrush Green = new(Color.FromRgb(0x30, 0xD1, 0x58));
+    static readonly SolidColorBrush Red = new(Color.FromRgb(0xFF, 0x45, 0x3A));
 
     readonly AudioService _audio;
     readonly NetworkService _network;
